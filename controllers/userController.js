@@ -30,8 +30,8 @@ module.exports.register = (db) => {
             userName: req.body.userName,
             NID: req.body.NID,
           });
-          const token = user.generateAuthToken()
           await user.save();
+          const token = user.generateAuthToken()
           sendMail(req)
           res.cookie('token',token,{
             httpOnly: true,
@@ -43,6 +43,7 @@ module.exports.register = (db) => {
             status:'success',
           });
         } catch (error) {
+          console.log(error);
           res.status(401).json({
             message: error.message,
             status: "failed",

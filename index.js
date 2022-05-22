@@ -3,15 +3,15 @@ const app = express()
 const PORT = process.env.PORT || 4000
 const middlewareSetup = require('./middleware/middleware.js')
 const { db } = require('./utils/database.js')
-const { setupRouter } = require('./routes/user.js')
+const userRouter  = require('./routers/routers.js')
 const { User } = require('./models/userSchema.js')
 app.listen(PORT, ()=>{
     console.log(`Listening at port :${PORT}`);
 })
 middlewareSetup(app)
 async function start(){
-const database = await db();
-setupRouter(app, database)
+await db();
+app.use(userRouter);
 app.get('/',(req,res)=>{
     res.send("Hello world...")
 });
